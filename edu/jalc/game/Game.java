@@ -17,11 +17,11 @@ private static JTextField field;
 private Display board;
 
 private Player player;
-private ArrayList<Character> guys2 = new ArrayList<Character>();
+private ArrayList<Character> guys = new ArrayList<Character>();
 
 private Random random;
 private Timer clock;
-public static String action;
+public String action;
    
    public Game()
    {
@@ -33,14 +33,14 @@ public static String action;
    frame.setSize(666,689);
    frame.setLocation(320,90);
    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-   player = new Player(6,6);
+   player = new Player(this,6,6);
    buildPanel();
    frame.setVisible(true);
-   guys2.add(new Character(board, Color.green));
-   guys2.add(new Character(board, Color.green));
-   guys2.add(new Character(board, Color.green));
-   guys2.add(new Character(board, Color.red));
-   guys2.add(new Character(board, Color.blue));
+   guys.add(new Character(board, Color.green));
+   guys.add(new Character(board, Color.green));
+   guys.add(new Character(board, Color.green));
+   guys.add(new Character(board, Color.red));
+   guys.add(new Character(board, Color.blue));
    clock.start();
    }
    
@@ -49,7 +49,7 @@ public static String action;
    field = new JTextField();
    field.addKeyListener(this);
    frame.add(field);
-   board = new Display();
+   board = new Display(this, 25, 25);
    board.build();
    frame.add(board);
    }
@@ -65,7 +65,7 @@ public static String action;
       player.teleport();
    if(action.equals("explore"))
       try{
-         if(terrain[player.xP/50][player.yP/50] == 6 && player.has("torch","ladder"))
+         if(terrain[player.xP()/50][player.yP()/50] == 6 && player.has("torch","ladder"))
             System.out.println("Cave Explored!");
          }
       catch(ArrayIndexOutOfBoundsException e){System.out.println("Error detected");}
@@ -76,16 +76,16 @@ public static String action;
    public void removeCharacters()
    {
    int[] pA = player.getArea();
-   int x = player.xP, y = player.yP;
-   Rectangle pRect = player.rect;
+   int x = player.xP(), y = player.yP();
+   //Rectangle pRect = player.rect;
    /*if(player.area[2]>0)
       {pRect = new Rectangle(player.area[0],player.area[1],player.area[2],player.area[3]);}//(x-pA[0],y-pA[1],pA[0]+pA[2],pA[1]+pA[3]);
    else {pRect = new Rectangle(player.area[0]+player.area[2],player.area[1]+player.area[3],player.area[2],player.area[3]);}*/
-   for(int j = 0; j < guys2.size(); j++)
+   for(int j = 0; j < guys.size(); j++)
       {
-      Rectangle cRect = new Rectangle(guys2.get(j).xP, guys2.get(j).yP, guys2.get(j).xSize, guys2.get(j).ySize);
-      if (cRect.intersects(pRect))
-         guys2.remove(j);
+      //Rectangle cRect = new Rectangle(guys.get(j).xP(), guys.get(j).yP(), guys.get(j).xSize, guys.get(j).ySize);
+      //if (cRect.intersects(pRect))
+        // guys.remove(j);
       }
    }
    
@@ -97,6 +97,27 @@ public static String action;
    }
    public int[] key(){
      return this.key;
+   }
+   public String getAction(){
+     return this.action;
+   }
+   public void setAction(String action){
+     this.action = action;
+   }
+   public ArrayList<Character> getGuys(){
+     return this.guys;
+   }
+   public int[][] terrain(){
+     return this.terrain;
+   }
+   public ImageIcon[][] icons(){
+     return this.icons;
+   }
+   public void setTerrain(int[][] terrain){
+     this.terrain = terrain;
+   }
+   public void setIcons(ImageIcon[][] icons){
+     this.icons = icons;
    }
    
    public void actionPerformed(ActionEvent evt)

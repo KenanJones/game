@@ -11,8 +11,8 @@ public class Player
    private Random random = new Random();
    private int xP;//position on display in pixels
    private int yP;//position on display in pixels
-   private final int XP = 312;//the position on the screen in pixels
-   private final int YP = 312;//the position on the screen in pixels
+   public final int XP = 312;//the position on the screen in pixels
+   public final int YP = 312;//the position on the screen in pixels
    private double life;
    private int direction;
    private int[] area; //the weapon effect area

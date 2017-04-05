@@ -9,6 +9,7 @@ import java.util.*;
    {
    private Random random = new Random();
    
+   private Game game;
    private int xP;
    private int yP;
    private int xSize;
@@ -19,6 +20,7 @@ import java.util.*;
    
    public Character(Display board)
       {
+      this.game = board.getGame();
       xSize = 26;
       ySize = 26;
       xP = random.nextInt(board.XSIZE)*50+(50-xSize)/2;
@@ -28,6 +30,7 @@ import java.util.*;
       }
    public Character(Display board, Color color)
       {
+      this.game = board.getGame();
       xSize = 26;
       ySize = 26;
       xP = random.nextInt(board.XSIZE)*50+(50-xSize)/2;
@@ -42,10 +45,10 @@ import java.util.*;
       {
       int xMove = random.nextInt(speed + 1);
       int yMove = speed - xMove;
-      if(player().xP > xP)
+      if(game.player().xP() > xP)
          {xP += xMove*5;}
       else{xP -= xMove*5;}
-      if(player().yP > yP)
+      if(game.player().yP() > yP)
          {yP += yMove*5;}
       else{yP -= yMove*5;}
       }
@@ -53,8 +56,10 @@ import java.util.*;
    public void show(Graphics g)
       {
       move();
-      int x = xP - player.xP + player.XP-12;
-      int y = yP - player.yP + player.YP-12;
+      int pxp = game.player().xP();
+      int pyp = game.player().yP();
+      int x = xP - pxp + game.player().XP-12;
+      int y = yP - pyp + game.player().YP-12;
       Graphics2D g2 = (Graphics2D) g;
       g2.setStroke(new BasicStroke(1));
       
